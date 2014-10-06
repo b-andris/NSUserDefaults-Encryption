@@ -5,22 +5,21 @@
 //  Created by Benjamin Andris Suter-Dörig on 30/09/14.
 //  Copyright (c) 2014 Benjamin Andris Suter-Dörig. All rights reserved.
 //
+//	A discussion on the security aspects of using a plaintext hash as IV : http://security.stackexchange.com/questions/4594/when-using-aes-and-cbc-can-the-iv-be-a-hash-of-the-plaintext
 
 #import "NSUserDefaults+Encryption.h"
-#import "CocoaSecurity.h"
+#import "RNDecryptor.h"
+#import "RNEncryptor.h"
 
 #define ENCRYPTED_KEY_PREFIX @"ch.unibe.biology.encrypted.userdefaults.encrypted.key."
 
-static NSData* easKey = nil;
-static NSData* easIV = nil;
+static NSString* password = nil;
 
 @implementation NSUserDefaults (Encryption)
 
 #pragma mark - set password
 + (void)setPassword:(NSString*)pPassword{
-	NSData* sha = [CocoaSecurity sha384:pPassword].data;
-	easKey = [sha subdataWithRange:NSMakeRange(0, 32)];
-	easIV = [sha subdataWithRange:NSMakeRange(32, 16)];
+	password = pPassword;
 }
 
 #pragma mark - access encrypted defaults
@@ -186,14 +185,21 @@ static NSData* easIV = nil;
 
 #pragma mark - helpers
 - (NSString*)encryptedKeyForUnencryptedKey:(NSString*)lookupKey{
-	return [ENCRYPTED_KEY_PREFIX stringByAppendingString:[[self encryptedObject:lookupKey] base64EncodedStringWithOptions:0]];
+	NSData* data = [lookupKey dataUsingEncoding:NSUTF8StringEncoding];
+	uint8_t* hash = malloc(CC_SHA256_DIGEST_LENGTH);
+	CC_SHA256([data bytes], (CC_LONG)[data length], hash);
+	NSData* keyHash = [NSData dataWithBytes:hash length:CC_SHA256_DIGEST_LENGTH];
+	free(hash);
+	data = [RNEncryptor encryptData:data withSettings:kRNCryptorAES256Settings password:password IV:[keyHash subdataWithRange:NSMakeRange(0, 16)] encryptionSalt:[keyHash subdataWithRange:NSMakeRange(16, 8)] HMACSalt:[keyHash subdataWithRange:NSMakeRange(24, 8)] error:NULL];
+	return [ENCRYPTED_KEY_PREFIX stringByAppendingString:[data base64EncodedStringWithOptions:0]];
 }
 
 - (NSString*)decryptedKeyForEncryptedKey:(NSString*)key{
 	if ([key rangeOfString:ENCRYPTED_KEY_PREFIX].location != 0) return nil;
 	NSString* base64 = [key stringByReplacingOccurrencesOfString:ENCRYPTED_KEY_PREFIX withString:@""];
 	NSData* encryptedKey = [[NSData alloc] initWithBase64EncodedString:base64 options:0];
-	return [self decryptedObject:encryptedKey];
+	NSData* keyData = [RNDecryptor decryptData:encryptedKey withPassword:password error:NULL];
+	return [[NSString alloc] initWithData:keyData encoding:NSUTF8StringEncoding];
 }
 
 - (NSData*)encryptedObject:(id)object{
@@ -201,11 +207,11 @@ static NSData* easIV = nil;
 																   format:NSPropertyListBinaryFormat_v1_0
 																  options:0
 																	error:NULL];
-	return [CocoaSecurity aesEncryptWithData:pListData key:easKey iv:easIV].data;
+	return [RNEncryptor encryptData:pListData withSettings:kRNCryptorAES256Settings password:password error:NULL];
 }
 
 - (id)decryptedObject:(NSData*)data{
-	NSData* pListData = [CocoaSecurity aesDecryptWithData:data key:easKey iv:easIV].data;
+	NSData* pListData = [RNDecryptor decryptData:data withPassword:password error:NULL];
 	return [NSPropertyListSerialization propertyListWithData:pListData options:0 format:NULL error:NULL];
 }
 

@@ -1,10 +1,10 @@
 PODS:
-  - CocoaSecurity (1.2.4)
+  - RNCryptor (2.2)
 
 DEPENDENCIES:
-  - CocoaSecurity (~> 1.2.2)
+  - RNCryptor (~> 2.2)
 
 SPEC CHECKSUMS:
-  CocoaSecurity: 7ce1b967863d4e96dcffdbad17671117900e6c6e
+  RNCryptor: 4f562062c39f288b99601674f2c50dd44b68d58a
 
 COCOAPODS: 0.34.1

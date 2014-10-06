@@ -6,9 +6,9 @@
 // project.
 
 
-// CocoaSecurity
-#define COCOAPODS_POD_AVAILABLE_CocoaSecurity
-#define COCOAPODS_VERSION_MAJOR_CocoaSecurity 1
-#define COCOAPODS_VERSION_MINOR_CocoaSecurity 2
-#define COCOAPODS_VERSION_PATCH_CocoaSecurity 4
+// RNCryptor
+#define COCOAPODS_POD_AVAILABLE_RNCryptor
+#define COCOAPODS_VERSION_MAJOR_RNCryptor 2
+#define COCOAPODS_VERSION_MINOR_RNCryptor 2
+#define COCOAPODS_VERSION_PATCH_RNCryptor 0
 
