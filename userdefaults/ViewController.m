@@ -51,7 +51,12 @@
 
 - (NSString*)stringFromJSONObject:(id)object{
 	object = [self ensureObjectSafetyForJSONObject:object];
-	return [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:object options:(int)NSJSONReadingAllowFragments error:NULL] encoding:NSUTF8StringEncoding];
+	if (object == [NSNull null]) {
+		return [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:object options:(NSJSONWritingOptions)NSJSONReadingAllowFragments error:NULL] encoding:NSUTF8StringEncoding];
+	} else {
+		return [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:object options:NSJSONWritingPrettyPrinted error:NULL] encoding:NSUTF8StringEncoding];
+	}
+
 }
 
 - (id)ensureObjectSafetyForJSONObject:(id)object{
