@@ -136,7 +136,7 @@ static NSString* password = nil;
 
 - (void)setPersistentEncryptedDomain:(NSDictionary *)domain forName:(NSString *)domainName{
 	NSDictionary* encryptedDomain = [self encryptedContentOfDictionary:domain];
-	[self setPersistentEncryptedDomain:encryptedDomain forName:[self encryptedKeyForUnencryptedKey:domainName]];
+	[self setPersistentDomain:encryptedDomain forName:[self encryptedKeyForUnencryptedKey:domainName]];
 }
 
 - (NSDictionary *)decryptedPersistentDomainForName:(NSString *)domainName{
@@ -150,7 +150,7 @@ static NSString* password = nil;
 
 - (void)setVolatileEncryptedDomain:(NSDictionary *)domain forName:(NSString *)domainName{
 	NSDictionary* encryptedDomain = [self encryptedContentOfDictionary:domain];
-	[self setVolatileEncryptedDomain:encryptedDomain forName:[self encryptedKeyForUnencryptedKey:domainName]];
+	[self setVolatileDomain:encryptedDomain forName:[self encryptedKeyForUnencryptedKey:domainName]];
 }
 
 - (NSDictionary *)decryptedVolatileDomainForName:(NSString *)domainName{
