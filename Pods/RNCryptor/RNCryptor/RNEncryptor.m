@@ -28,7 +28,6 @@
 #import "RNCryptor+Private.h"
 #import "RNEncryptor.h"
 #import "RNCryptorEngine.h"
-#import "CocoaSecurity.h"
 
 @interface RNEncryptor ()
 @property (nonatomic, readwrite, strong) NSData *encryptionSalt;
