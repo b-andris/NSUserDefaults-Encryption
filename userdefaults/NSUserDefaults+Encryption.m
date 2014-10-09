@@ -94,8 +94,12 @@ static NSString* password = nil;
 }
 
 - (void)setEncryptedObject:(id)value forKey:(NSString *)defaultName{
-	[self setObject:[self encryptedObject:value]
-			 forKey:[self encryptedKeyForUnencryptedKey:defaultName]];
+	if (value) {
+		[self setObject:[self encryptedObject:value]
+				 forKey:[self encryptedKeyForUnencryptedKey:defaultName]];
+	} else {
+		[self removeEncryptedObjectForKey:defaultName];
+	}
 }
 
 - (void)setEncryptedDouble:(double)value forKey:(NSString *)defaultName{
