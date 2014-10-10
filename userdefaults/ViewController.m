@@ -36,9 +36,7 @@
 }
 
 - (IBAction)delete:(id)sender {
-	NSLog(@"%@",[[NSUserDefaults standardUserDefaults] decryptedObjectForKey:self.keyTextView.text]);
 	[[NSUserDefaults standardUserDefaults] removeEncryptedObjectForKey:self.keyTextView.text];
-	NSLog(@"%@",[[NSUserDefaults standardUserDefaults] decryptedObjectForKey:self.keyTextView.text]);
 	[self reloadView];
 }
 
