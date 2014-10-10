@@ -28,6 +28,7 @@ typedef enum : NSUInteger {
 - (NSInteger)decryptedIntegerForKey:(NSString *)defaultName;
 - (id)decryptedObjectForKey:(NSString *)defaultName;
 - (NSArray *)decryptedStringArrayForKey:(NSString *)defaultName;
+- (NSMutableArray*)decryptedMutableArrayValueForKey:(NSString*)defaultName;
 - (NSString *)decryptedStringForKey:(NSString *)defaultName;
 - (NSURL *)decryptedURLForKey:(NSString *)defaultName;
 

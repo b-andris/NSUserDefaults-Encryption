@@ -72,6 +72,10 @@ static NSMutableDictionary* keyCache = nil;
 	return plist;
 }
 
+- (NSMutableArray*)decryptedMutableArrayValueForKey:(NSString*)defaultName{
+	return [[self decryptedArrayForKey:defaultName] mutableCopy];
+}
+
 - (NSString *)decryptedStringForKey:(NSString *)defaultName{
 	id plist = [self decryptedObjectForKey:defaultName];
 	return [plist isKindOfClass:[NSString class]]?plist:nil;
