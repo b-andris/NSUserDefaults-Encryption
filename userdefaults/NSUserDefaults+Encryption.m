@@ -5,7 +5,6 @@
 //  Created by Benjamin Andris Suter-Dörig on 30/09/14.
 //  Copyright (c) 2014 Benjamin Andris Suter-Dörig. All rights reserved.
 //
-//	A discussion on the security aspects of using a plaintext hash as IV : http://security.stackexchange.com/questions/4594/when-using-aes-and-cbc-can-the-iv-be-a-hash-of-the-plaintext
 
 #import "NSUserDefaults+Encryption.h"
 #import "RNDecryptor.h"
