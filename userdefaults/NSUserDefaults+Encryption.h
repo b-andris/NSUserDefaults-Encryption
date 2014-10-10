@@ -17,7 +17,7 @@ typedef enum : NSUInteger {
 
 @interface NSUserDefaults (Encryption)
 
-+ (void)setPassword:(NSString*)password;
++ (void)setPassword:(NSString*)pPassword useKeyChache:(BOOL) useKeyCache;
 
 - (NSArray *)decryptedArrayForKey:(NSString *)defaultName;
 - (BOOL)decryptedBoolForKey:(NSString *)defaultName;

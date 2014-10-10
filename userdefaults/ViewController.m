@@ -21,7 +21,7 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	[NSUserDefaults setPassword:@"SOME PASSWORD"];
+	[NSUserDefaults setPassword:@"SOME PASSWORD" useKeyChache:YES];
 	[self reloadView];
 }
 

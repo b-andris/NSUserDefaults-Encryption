@@ -13,11 +13,14 @@
 #define ENCRYPTED_KEY_PREFIX @"ch.unibe.biology.encrypted.userdefaults.encrypted.key."
 
 static NSString* password = nil;
+static NSMutableDictionary* keyCache = nil;
 
 @implementation NSUserDefaults (Encryption)
 
 #pragma mark - set password
-+ (void)setPassword:(NSString*)pPassword{
++ (void)setPassword:(NSString*)pPassword useKeyChache:(BOOL) useKeyCache{
+	if (useKeyCache && [password isEqualToString:pPassword]) return;
+	keyCache = useKeyCache?[NSMutableDictionary dictionary]:nil;
 	password = pPassword;
 }
 
@@ -188,21 +191,44 @@ static NSString* password = nil;
 
 #pragma mark - helpers
 - (NSString*)encryptedKeyForUnencryptedKey:(NSString*)lookupKey{
+	if (keyCache[lookupKey]) return keyCache[lookupKey];
 	NSData* data = [lookupKey dataUsingEncoding:NSUTF8StringEncoding];
 	uint8_t* hash = malloc(CC_SHA256_DIGEST_LENGTH);
 	CC_SHA256([data bytes], (CC_LONG)[data length], hash);
 	NSData* keyHash = [NSData dataWithBytes:hash length:CC_SHA256_DIGEST_LENGTH];
 	free(hash);
-	data = [RNEncryptor encryptData:data withSettings:kRNCryptorAES256Settings password:password IV:[keyHash subdataWithRange:NSMakeRange(0, 16)] encryptionSalt:[keyHash subdataWithRange:NSMakeRange(16, 8)] HMACSalt:[keyHash subdataWithRange:NSMakeRange(24, 8)] error:NULL];
-	return [ENCRYPTED_KEY_PREFIX stringByAppendingString:[data base64EncodedStringWithOptions:0]];
+	data = [RNEncryptor encryptData:data
+					   withSettings:kRNCryptorAES256Settings
+						   password:password IV:[keyHash subdataWithRange:NSMakeRange(0, 16)]
+					 encryptionSalt:[keyHash subdataWithRange:NSMakeRange(16, 8)]
+						   HMACSalt:[keyHash subdataWithRange:NSMakeRange(24, 8)]
+							  error:NULL];
+	NSString* key = [ENCRYPTED_KEY_PREFIX stringByAppendingString:[data base64EncodedStringWithOptions:0]];
+	keyCache[lookupKey] = key;
+	return key;
+}
+
+- (NSString*)decryptedKeyFromKeyChacheForEcryptedKey:(NSString*)key{
+	__block NSString* decryptedKey = nil;
+	[keyCache enumerateKeysAndObjectsUsingBlock:^(NSString* dictionaryKey, NSString* obj, BOOL *stop) {
+		if ([obj isEqualToString:key]) {
+			decryptedKey = dictionaryKey;
+			*stop = YES;
+		}
+	}];
+	return decryptedKey;
 }
 
 - (NSString*)decryptedKeyForEncryptedKey:(NSString*)key{
+	NSString* decryptedKey = [self decryptedKeyFromKeyChacheForEcryptedKey:key];
+	if (decryptedKey) return decryptedKey;
 	if ([key rangeOfString:ENCRYPTED_KEY_PREFIX].location != 0) return nil;
 	NSString* base64 = [key stringByReplacingOccurrencesOfString:ENCRYPTED_KEY_PREFIX withString:@""];
 	NSData* encryptedKey = [[NSData alloc] initWithBase64EncodedString:base64 options:0];
 	NSData* keyData = [RNDecryptor decryptData:encryptedKey withPassword:password error:NULL];
-	return [[NSString alloc] initWithData:keyData encoding:NSUTF8StringEncoding];
+	decryptedKey = [[NSString alloc] initWithData:keyData encoding:NSUTF8StringEncoding];
+	keyCache[decryptedKey] = key;
+	return decryptedKey;
 }
 
 - (NSData*)encryptedObject:(id)object{
