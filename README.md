@@ -18,7 +18,11 @@ Add
 ```
 pod 'NSUserDefaults+Encryption', :git => 'https://github.com/b-andris/NSUserDefaults-Encryption.git', :tag => '1.0.0'
 ```
-to your Podfile.
+to your Podfile and run
+```
+pod install
+```
+in your project's root folder
 
 ### Manual
 
