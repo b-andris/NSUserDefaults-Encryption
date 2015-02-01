@@ -18,11 +18,7 @@ Add
 ```
 pod 'NSUserDefaults+Encryption', :git => 'https://github.com/b-andris/NSUserDefaults-Encryption.git', :tag => '1.0.0'
 ```
-to your Podfile and run
-```
-pod install
-```
-in your project's root folder
+to your Podfile and run `pod install` in your project's root folder
 
 ### Manual
 
@@ -34,11 +30,7 @@ All encryption is performed by [RNCryptor](https://github.com/RNCryptor/RNCrypto
 
 NOTE: In order to enable lookup the [sha256](http://en.wikipedia.org/wiki/SHA-2#Examples_of_SHA-2_variants) hashes of all encrypted keys are stored in plain text making them vulnerable to dictionary attacks.
 
-(Key meaning the argument of methods such as
-```
--[NSUserDefaults objectForKey:]
-```
-and not the encryption key)
+(Key meaning the argument of methods such as `-[NSUserDefaults objectForKey:]` and not the encryption key)
 
 A discussion on the security implications of this can be found [here](A discussion on the security aspects of using a plaintext hash as IV : http://security.stackexchange.com/questions/4594/when-using-aes-and-cbc-can-the-iv-be-a-hash-of-the-plaintext).
 
