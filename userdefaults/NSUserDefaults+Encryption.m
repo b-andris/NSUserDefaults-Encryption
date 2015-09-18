@@ -9,6 +9,7 @@
 #import "NSUserDefaults+Encryption.h"
 #import "RNDecryptor.h"
 #import "RNEncryptor.h"
+#import <CommonCrypto/CommonDigest.h>
 
 #define ENCRYPTED_KEY_PREFIX @"ch.unibe.biology.encrypted.userdefaults.encrypted.key."
 
