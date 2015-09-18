@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 	s.name         = "NSUserDefaults+Encryption"
-	s.version      = "1.0.0"
+	s.version      = "1.0.2"
 	s.summary      = "A category adding support for AES encrypted key-value pairs to NSUserDefaults"
 	s.homepage     = "https://github.com/b-andris/NSUserDefaults-Encryption"
 
@@ -25,7 +25,7 @@ LIC
 
 	s.requires_arc = true
 
-	s.dependency "RNCryptor", "~> 2.2"
+	s.dependency "RNCryptor", "~> 3.0"
 	
 	s.ios.deployment_target = '5.0'
 	s.osx.deployment_target = '10.7'
