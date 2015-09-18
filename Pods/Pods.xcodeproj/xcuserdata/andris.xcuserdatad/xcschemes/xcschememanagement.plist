@@ -4,12 +4,12 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Pods-RNCryptor.xcscheme</key>
+		<key>Pods.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods.xcscheme</key>
+		<key>RNCryptor.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -17,12 +17,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0C64311BC5AD1CDBE848431A</key>
+		<key>2DBA88E27D67571A7AE3EB97A6F2D1D1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6B2C7935C8E06E7FEB121E60</key>
+		<key>4E332016A3FAE67B4E8B270948F9E080</key>
 		<dict>
 			<key>primary</key>
 			<true/>

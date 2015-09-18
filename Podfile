@@ -1,3 +1,3 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-pod 'RNCryptor', '~> 2.2'
+pod 'RNCryptor', '~> 3.0'

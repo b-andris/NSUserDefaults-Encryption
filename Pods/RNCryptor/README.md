@@ -1,18 +1,20 @@
 # RNCryptor
 
 Cross-language AES Encryptor/Decryptor [data
-format](https://github.com/rnapier/RNCryptor/wiki/Data-Format).
+format](https://github.com/RNCryptor/RNCryptor-Spec/blob/master/RNCryptor-Spec-v3.md).
  
 The primary target is Objective-C, but implementations are available in
-[C](https://github.com/megabri/MGCryptor),
-[Java](http://code.google.com/p/jncryptor/),
-[PHP](https://github.com/rnapier/RNCryptor/tree/master/php),
-[Python](https://github.com/rnapier/RNCryptor/blob/master/python/RNCryptor.py),
-and [Ruby](https://github.com/rnapier/RNCryptor/tree/master/ruby).
+[C++](https://github.com/RNCryptor/RNCryptor-cpp),
+[C#](https://github.com/RNCryptor/RNCryptor-cs),
+[Java](https://github.com/RNCryptor/JNCryptor),
+[PHP](https://github.com/RNCryptor/RNCryptor-php),
+[Python](https://github.com/RNCryptor/RNCryptor-python),
+[Javascript](https://github.com/RNCryptor/rncryptor-js),
+and [Ruby](https://github.com/RNCryptor/ruby_rncryptor).
 
 The data format includes all the metadata required to securely implement AES
 encryption, as described in ["Properly encrypting with AES with
-CommonCrypto,"](http://robnapier.net/blog/aes-commoncrypto) and [*iOS 6
+CommonCrypto,"](http://robnapier.net/aes-commoncrypto) and [*iOS 6
 Programming Pushing the Limits*](http://iosptl.com), Chapter 15. Specifically,
 it includes:
 
@@ -99,17 +101,6 @@ the data call `finish`.
 ## Async and Streams
 
 When performing async operations on streams, the data can come very quickly
-(particularly if you're reading from a local file). If you use RNCryptor in a
-naïve way, you'll queue a work blocks faster than the engine can process them
-and your memory usage will spike. This is particularly true if there's only one
-core, such as on an iPad 1. The solution is to only dispatch new work blocks as
-the previous work blocks complete. When performing async operations on streams,
-the data can come very quickly (particularly if you're reading from a local
-file). If you use RNCryptor in a naïve way, you'll queue a work blocks faster
-than the engine can process them and your memory usage will spike. This is
-particularly true if there's only one core, such as on an iPad 1. The solution
-is to only dispatch new work blocks as the previous work blocks complete. When
-performing async operations on streams, the data can come very quickly
 (particularly if you're reading from a local file). If you use RNCryptor in a
 naïve way, you'll queue a work blocks faster than the engine can process them
 and your memory usage will spike. This is particularly true if there's only one
@@ -226,8 +217,7 @@ this isn't an option, so I fall back to my own Encrypt-than-MAC.
 
 * PBKDF2. While bcrypt and scrypt may be more secure than PBKDF2, CommonCryptor
 only supports PBKDF2. [NIST also continues to recommend
-PBKDF2](http://security.stackexchange.com/questions/4781/do-any-security-
-experts-recommend-bcrypt-for-password-storage). We use 10k rounds of PBKDF2
+PBKDF2](http://security.stackexchange.com/questions/4781/do-any-security-experts-recommend-bcrypt-for-password-storage). We use 10k rounds of PBKDF2
 which represents about 80ms on an iPhone 4.
 
 ### Code simplicity
@@ -299,7 +289,7 @@ license:
  */
 ```
 
-Portions of ths code, indicated in the source, are licensed under the APSL
+Portions of this code, indicated in the source, are licensed under the APSL
 license:
 
 ```
